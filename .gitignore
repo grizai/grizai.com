@@ -1,0 +1,10 @@
+# Source material for the Webflow migration — not part of the site.
+webflow_export/
+www-grizai-com/
+
+# Local tooling
+.claude/
+.work/
+
+# macOS
+.DS_Store
