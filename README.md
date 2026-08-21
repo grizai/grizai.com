@@ -77,11 +77,17 @@ When you are ready: add a `CNAME` file containing `www.grizai.com`, then at
 DNSimple point the apex `A` records at GitHub's four IPs and `www` at
 `grizai.github.io`.
 
-**The `github.io` URL is not a usable preview for this site.** Every asset is
-referenced from the site root (`/assets/...`), which is correct for a custom
-domain but breaks at `grizai.github.io/grizai.com/`, where the real root is one
-level up — you would get unstyled pages. Use `./serve.sh` to preview; the domain
-is the first place this will render correctly once DNS points at it.
+All internal paths are relative to each page's own depth (`assets/...` from the
+root, `../assets/...` one level down, and so on), so the site renders correctly
+wherever it is mounted: a custom domain, `grizai.github.io/grizai.com/`, a plain
+`localhost` root, or even opened straight off disk with `file://`. Nothing needs
+configuring for the domain switch.
+
+The one exception is `404.html`, which uses root-absolute paths. GitHub Pages
+serves it for *any* unmatched URL, at any depth, so relative paths would resolve
+against whatever the mistyped path happened to be. This means the 404 page is
+styled correctly on a custom domain but will be unstyled under a `github.io`
+subpath — a deliberate trade, since the domain is where it matters.
 
 **Leave the `MX` and `SPF` records alone** — Google Workspace mail runs on this
 domain, and it is unrelated to where the website is hosted.
