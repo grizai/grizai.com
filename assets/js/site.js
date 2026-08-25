@@ -110,4 +110,92 @@
       });
     }
   );
+  /* ------------------------------------------------------------------ *
+   * Logo strip. Scrolls only when the reader asks: the buttons, a swipe,
+   * or the arrow keys. Nothing moves on its own.
+   * ------------------------------------------------------------------ */
+  var strip = document.querySelector('.logo-strip');
+  if (strip) {
+    var viewport = strip.querySelector('.logo-viewport');
+    var prev = strip.querySelector('.logo-prev');
+    var next = strip.querySelector('.logo-next');
+
+    function maxScroll() {
+      return viewport.scrollWidth - viewport.clientWidth;
+    }
+
+    function sync() {
+      var max = maxScroll();
+      /* Nothing to scroll: drop the buttons rather than show dead controls. */
+      strip.classList.toggle('is-static', max < 2);
+      var x = viewport.scrollLeft;
+      prev.disabled = x < 2;
+      next.disabled = x > max - 2;
+    }
+
+    function page(direction) {
+      viewport.scrollLeft += direction * Math.round(viewport.clientWidth * 0.8);
+    }
+
+    prev.addEventListener('click', function () { page(-1); });
+    next.addEventListener('click', function () { page(1); });
+    viewport.addEventListener('scroll', sync, { passive: true });
+    window.addEventListener('resize', sync);
+
+    viewport.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight') { e.preventDefault(); page(1); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); page(-1); }
+    });
+
+    sync();
+    /* Logos load lazily, so the scrollable width is not final at DOM ready. */
+    window.addEventListener('load', sync);
+  }
+
+  /* ------------------------------------------------------------------ *
+   * Cal.com booking modal.
+   *
+   * Every "Book a 30-minute call" button carries data-cal-* attributes and
+   * a plain href to the same booking page. The embed turns the click into
+   * an in-page modal; if it never loads, the href still works.
+   * ------------------------------------------------------------------ */
+  (function (C, A, L) {
+    var p = function (a, ar) { a.q.push(ar); };
+    var d = C.document;
+    C.Cal = C.Cal || function () {
+      var cal = C.Cal, ar = arguments;
+      if (!cal.loaded) {
+        cal.ns = {}; cal.q = cal.q || [];
+        d.head.appendChild(d.createElement("script")).src = A;
+        cal.loaded = true;
+      }
+      if (ar[0] === L) {
+        var api = function () { p(api, arguments); };
+        var namespace = ar[1];
+        api.q = api.q || [];
+        if (typeof namespace === "string") {
+          cal.ns[namespace] = cal.ns[namespace] || api;
+          p(cal.ns[namespace], ar);
+          p(cal, ["initNamespace", namespace]);
+        } else p(cal, ar);
+        return;
+      }
+      p(cal, ar);
+    };
+  })(window, "https://app.cal.com/embed/embed.js", "init");
+
+  Cal("init", "grizai", { origin: "https://app.cal.com" });
+  Cal.config = Cal.config || {};
+  Cal.config.forwardQueryParams = true;
+  Cal.ns.grizai("ui", { hideEventTypeDetails: false, layout: "month_view" });
+
+  /* Cal opens the modal but does not preventDefault, so the anchor would also
+     follow its href and open a second tab. Suppress that, but only once the
+     embed is actually live, so a blocked script falls through to the href
+     rather than leaving a dead button. */
+  document.addEventListener('click', function (e) {
+    var trigger = e.target && e.target.closest && e.target.closest('[data-cal-link]');
+    if (!trigger) return;
+    if (window.Cal && window.Cal.ns && window.Cal.ns.grizai) e.preventDefault();
+  });
 })();

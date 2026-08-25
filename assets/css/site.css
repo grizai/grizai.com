@@ -908,16 +908,6 @@ label {
   content: "";
 }
 
-@keyframes spin {
-  0% {
-    transform: rotate(0);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
 .w-dyn-empty {
   background-color: #ddd;
   padding: 10px;
@@ -1067,6 +1057,7 @@ a {
 }
 
 .intro-wrapper {
+  padding-bottom: 44px;
   flex-flow: row;
   justify-content: space-between;
   align-items: center;
@@ -3686,4 +3677,390 @@ a {
 /* The accordion height is animated by site.js; Webflow drove it from IX2. */
 .accordion-panel {
   transition: height .25s ease, opacity .2s;
+}
+
+/* ==========================================================================
+   Hero. A short headline carries the claim, with the qualification moved
+   down into the supporting line, so the heading keeps its original weight
+   and the eyebrow, lede and call to action stack beneath it.
+   ========================================================================== */
+
+.hero-eyebrow {
+  text-wrap: balance;
+  color: var(--white);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin: 0 0 14px;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 26px;
+}
+.hero-eyebrow span {
+  opacity: .55;
+  margin: 0 2px;
+}
+
+.homepage-heading {
+  text-wrap: balance;
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 50px;
+  line-height: 58px;
+}
+
+.hero-lede {
+  color: var(--color);
+  max-width: 30em;
+  margin: 0;
+  font-size: 20px;
+  line-height: 30px;
+}
+
+/* The CTA slot was already in the markup, just empty. */
+.intro-email {
+  margin-top: 28px;
+}
+
+.button.book-cta {
+  align-self: flex-start;
+  margin-top: 0;
+  padding: 14px 58px 14px 22px;
+  font-size: 16px;
+}
+
+.cta-note {
+  color: var(--color);
+  opacity: .8;
+  margin: 10px 0 0;
+  font-size: 14px;
+  font-style: italic;
+  line-height: 21px;
+}
+
+.cta-note .slash {
+  opacity: .55;
+  margin-right: 5px;
+  font-style: normal;
+}
+
+@media screen and (max-width: 991px) {
+  .homepage-heading {
+    margin-bottom: 18px;
+    font-size: 42px;
+    line-height: 50px;
+  }
+  .hero-eyebrow {
+    font-size: 15px;
+    line-height: 24px;
+  }
+  .hero-lede {
+    font-size: 18px;
+    line-height: 28px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .homepage-heading {
+    font-size: 38px;
+    line-height: 46px;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .homepage-heading {
+    margin-top: 0;
+    margin-bottom: 18px;
+    font-size: 32px;
+    line-height: 40px;
+  }
+  .hero-lede {
+    max-width: none;
+  }
+  .button.book-cta {
+    text-align: left;
+    width: 100%;
+  }
+  .intro-wrapper {
+    padding-bottom: 30px;
+  }
+  .intro-email {
+    margin-bottom: 32px;
+  }
+}
+
+/* ==========================================================================
+   Client and institution logos.
+
+   A plain horizontal scroller: nothing moves unless the reader asks it to,
+   via the buttons, a trackpad swipe, or the arrow keys. Native overflow
+   scrolling means touch devices get swiping for free.
+   ========================================================================== */
+
+.logo-band {
+  padding-top: 54px;
+  padding-bottom: 54px;
+}
+
+.logo-lead {
+  color: var(--color);
+  text-align: center;
+  max-width: 44em;
+  margin: 0 auto 30px;
+  font-size: 19px;
+  line-height: 29px;
+}
+
+.logo-strip {
+  align-items: center;
+  gap: 6px;
+  display: flex;
+}
+
+.logo-viewport {
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+}
+.logo-viewport::-webkit-scrollbar {
+  display: none;
+}
+.logo-viewport:focus-visible {
+  outline: 2px solid var(--color);
+  outline-offset: 6px;
+}
+
+.logo-set {
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+}
+
+.logo-set li {
+  flex: none;
+  justify-content: center;
+  align-items: center;
+  width: 170px;
+  display: flex;
+}
+
+.logo-set img {
+  filter: grayscale(100%);
+  opacity: .75;
+  width: auto;
+  max-width: 140px;
+  max-height: 54px;
+  transition: opacity .2s, filter .2s;
+  display: block;
+}
+.logo-set img:hover {
+  filter: grayscale(0%);
+  opacity: 1;
+}
+
+.logo-nav {
+  color: var(--color);
+  cursor: pointer;
+  background: none;
+  border: 0;
+  border-radius: 50%;
+  flex: none;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  transition: opacity .2s, background-color .2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.logo-nav svg {
+  width: 22px;
+  height: 22px;
+}
+.logo-nav:hover {
+  background-color: #0000000d;
+}
+.logo-nav:focus-visible {
+  outline: 2px solid var(--color);
+  outline-offset: 2px;
+}
+.logo-nav[disabled] {
+  opacity: .25;
+  cursor: default;
+  background: none;
+}
+/* Hidden outright when every logo already fits. */
+.logo-strip.is-static .logo-nav {
+  display: none;
+}
+
+@media screen and (max-width: 767px) {
+  .logo-band {
+    padding-top: 42px;
+    padding-bottom: 42px;
+  }
+  .logo-lead {
+    margin-bottom: 24px;
+    font-size: 17px;
+    line-height: 26px;
+  }
+  /* Two 38px buttons would take a third of the row here, and touch scrolls
+     by swiping anyway. The part-visible logo at the edge is the affordance;
+     the viewport keeps its tabindex so arrow keys still work. */
+  .logo-nav {
+    display: none;
+  }
+  .logo-strip {
+    gap: 0;
+  }
+  .logo-set li {
+    width: 132px;
+  }
+  .logo-set img {
+    max-width: 110px;
+    max-height: 44px;
+  }
+}
+
+/* Smooth scrolling is a user-initiated transition, but honour the preference. */
+@media (prefers-reduced-motion: reduce) {
+  .logo-viewport {
+    scroll-behavior: auto;
+  }
+}
+
+/* ==========================================================================
+   Body sections.
+
+   Two columns above 768px: the heading on the left, the argument running
+   linearly down the right. Below that they simply stack, which preserves
+   the reading order without any reordering.
+   ========================================================================== */
+
+.split {
+  align-items: flex-start;
+  gap: 40px;
+  display: flex;
+}
+
+.split-l {
+  flex: 0 1 40%;
+  min-width: 0;
+}
+
+.split-r {
+  flex: 1 1 60%;
+  min-width: 0;
+}
+
+.section-heading {
+  color: var(--color);
+  text-wrap: balance;
+  margin: 0;
+  font-size: 34px;
+  font-weight: 400;
+  line-height: 44px;
+}
+
+.section-text {
+  color: var(--color);
+  margin: 0 0 22px;
+  font-size: 20px;
+  line-height: 32px;
+}
+.section-text:last-child {
+  margin-bottom: 0;
+}
+
+.section-text em {
+  color: var(--orange);
+  font-style: normal;
+  font-weight: 500;
+}
+
+.section-sting {
+  color: var(--color);
+  border-left: 2px solid var(--orange);
+  margin: 26px 0;
+  padding-left: 16px;
+  font-size: 20px;
+  line-height: 32px;
+}
+
+.cta-block {
+  margin-top: 34px;
+}
+
+@media screen and (max-width: 767px) {
+  .split {
+    flex-direction: column;
+    /* flex-start shrinks the columns to their content once the axis flips. */
+    align-items: stretch;
+    gap: 20px;
+  }
+  .section-heading {
+    font-size: 28px;
+    line-height: 37px;
+  }
+  .section-sting {
+    margin: 22px 0;
+  }
+  .section-text {
+    margin-bottom: 20px;
+    font-size: 19px;
+    line-height: 30px;
+  }
+  .section-text:last-child {
+    margin-bottom: 0;
+  }
+  .cta-block {
+    margin-top: 28px;
+  }
+}
+
+/* The three mechanics in "How a few hours a week is enough": a short claim,
+   then the detail that backs it up. */
+
+.step {
+  margin-bottom: 26px;
+}
+
+.step-title {
+  color: var(--orange);
+  margin: 0 0 6px;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 30px;
+}
+
+.step-text {
+  color: var(--color);
+  margin: 0;
+  font-size: 20px;
+  line-height: 32px;
+}
+
+/* The closing line is a conclusion, not a fourth step, so it sits apart. */
+.step + .section-text {
+  border-top: 1px solid var(--light-grey);
+  margin-top: 30px;
+  padding-top: 26px;
+}
+
+@media screen and (max-width: 767px) {
+  .step {
+    margin-bottom: 22px;
+  }
+  .step-title,
+  .step-text {
+    font-size: 19px;
+    line-height: 30px;
+  }
+  .step + .section-text {
+    margin-top: 26px;
+    padding-top: 22px;
+  }
 }
