@@ -3797,17 +3797,45 @@ a {
    ========================================================================== */
 
 .logo-band {
-  padding-top: 54px;
-  padding-bottom: 54px;
+  align-items: center;
+  gap: 26px;
+  padding-top: 0;
+  display: flex;
 }
 
-.logo-lead {
+.logo-band .logo-strip {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Sits inline to the left of the scroller, so the band is one row deep. */
+.logo-label {
   color: var(--color);
-  text-align: center;
-  max-width: 44em;
-  margin: 0 auto 30px;
-  font-size: 19px;
-  line-height: 29px;
+  opacity: .7;
+  text-transform: uppercase;
+  letter-spacing: .09em;
+  white-space: nowrap;
+  margin: 0;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+/* Labels the whole grey band. Sits at 70% rather than lighter: on this grey
+   that measures 5.2:1, where 65% would land on the 4.5 threshold. */
+.band-eyebrow {
+  color: var(--color);
+  opacity: .7;
+  text-transform: uppercase;
+  letter-spacing: .09em;
+  margin: 0 0 18px;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.band-eyebrow span {
+  color: var(--orange);
+  opacity: .8;
+  margin: 0 2px;
 }
 
 .logo-strip {
@@ -3899,13 +3927,14 @@ a {
 
 @media screen and (max-width: 767px) {
   .logo-band {
-    padding-top: 42px;
-    padding-bottom: 42px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+    padding-top: 0;
   }
-  .logo-lead {
-    margin-bottom: 24px;
-    font-size: 17px;
-    line-height: 26px;
+  .band-eyebrow {
+    margin-bottom: 14px;
+    font-size: 12px;
   }
   /* Two 38px buttons would take a third of the row here, and touch scrolls
      by swiping anyway. The part-visible logo at the edge is the affordance;
@@ -3960,16 +3989,16 @@ a {
   color: var(--color);
   text-wrap: balance;
   margin: 0;
-  font-size: 34px;
+  font-size: 32px;
   font-weight: 400;
-  line-height: 44px;
+  line-height: 40px;
 }
 
 .section-text {
   color: var(--color);
   margin: 0 0 22px;
   font-size: 20px;
-  line-height: 32px;
+  line-height: 30px;
 }
 .section-text:last-child {
   margin-bottom: 0;
@@ -3987,7 +4016,7 @@ a {
   margin: 26px 0;
   padding-left: 16px;
   font-size: 20px;
-  line-height: 32px;
+  line-height: 30px;
 }
 
 .cta-block {
@@ -4030,17 +4059,22 @@ a {
 
 .step-title {
   color: var(--orange);
-  margin: 0 0 6px;
+  margin: 0 0 4px;
   font-size: 20px;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 30px;
+}
+
+.step-title:before {
+  content: '//';
+  margin-right: 5px;
 }
 
 .step-text {
   color: var(--color);
   margin: 0;
   font-size: 20px;
-  line-height: 32px;
+  line-height: 30px;
 }
 
 /* The closing line is a conclusion, not a fourth step, so it sits apart. */

@@ -11,3 +11,6 @@ www-grizai-com/
 
 # Working documents: positioning, pricing and CV. The repo is public.
 Z_resources/
+
+# Design mockups kept for reference, not part of the site.
+_*.html
