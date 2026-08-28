@@ -153,6 +153,57 @@
   }
 
   /* ------------------------------------------------------------------ *
+   * Copy the email address. mailto: does nothing on a machine with no
+   * mail client configured, so the address has to be liftable too.
+   * ------------------------------------------------------------------ */
+  var copyBtn = document.getElementById('copyEmail');
+  if (copyBtn) {
+    var copyStatus = document.getElementById('copyStatus');
+
+    function flash(ok, message) {
+      /* Only the success state shows the tick: a failed copy that looked
+         like a success would send someone away with an empty clipboard. */
+      copyBtn.classList.add(ok ? 'copied' : 'copy-failed');
+      if (copyStatus) copyStatus.textContent = message;
+      setTimeout(function () {
+        copyBtn.classList.remove('copied', 'copy-failed');
+        if (copyStatus) copyStatus.textContent = '';
+      }, 1800);
+    }
+
+    /* navigator.clipboard needs a secure context, so it is absent when the
+       page is opened over plain file:// or http://. */
+    function legacyCopy(text) {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      document.body.removeChild(ta);
+      return ok;
+    }
+
+    copyBtn.addEventListener('click', function () {
+      var email = copyBtn.getAttribute('data-email');
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(email).then(function () {
+          flash(true, 'Copied');
+        }).catch(function () {
+          var ok = legacyCopy(email);
+          flash(ok, ok ? 'Copied' : 'Could not copy, please select the address');
+        });
+      } else {
+        var ok = legacyCopy(email);
+        flash(ok, ok ? 'Copied' : 'Could not copy, please select the address');
+      }
+    });
+  }
+
+  /* ------------------------------------------------------------------ *
    * Cal.com booking modal.
    *
    * Every "Book a 30-minute call" button carries data-cal-* attributes and

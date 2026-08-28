@@ -4158,100 +4158,239 @@ a {
   }
 }
 
+
 /* ==========================================================================
-   Proof: two case studies and a testimonial. Each case leads on the outcome,
-   with the measured result set apart from the narrative below it.
+   Proof and credentials, side by side. Two short columns of numbers, each
+   leading to the page that carries the detail. Each figure is marked with
+   the // used for lists elsewhere on the site, and a rule separates the two
+   subjects.
    ========================================================================== */
 
-.case {
-  margin-bottom: 34px;
+.duo {
+  gap: 40px 70px;
+  display: flex;
 }
 
-.case-title {
+.duo-col {
+  flex-direction: column;
+  flex: 1 1 50%;
+  align-items: flex-start;
+  min-width: 0;
+  display: flex;
+}
+
+.duo-heading {
   color: var(--color);
-  margin: 0 0 10px;
-  font-size: 22px;
-  font-weight: 500;
-  line-height: 32px;
-}
-
-.case-text {
-  color: var(--color);
-  margin: 0 0 12px;
-  font-size: 20px;
-  line-height: 30px;
-}
-
-.case-result {
-  color: var(--color);
-  border-left: 2px solid var(--orange);
-  margin: 0;
-  padding-left: 16px;
-  font-size: 20px;
-  line-height: 30px;
-}
-
-.case-result-label {
-  color: var(--orange);
-  text-transform: uppercase;
-  letter-spacing: .08em;
-  margin-right: 8px;
-  font-size: 15px;
-  font-weight: 500;
-}
-
-.case-quote {
-  border-top: 1px solid #0000001a;
   margin: 0 0 26px;
-  padding-top: 26px;
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 40px;
 }
 
-.case-quote-text {
-  color: var(--color);
-  margin: 0 0 10px;
-  font-size: 22px;
-  line-height: 33px;
+.stats {
+  margin: 0 0 30px;
+  padding: 0;
+  list-style: none;
 }
 
-.case-quote-by {
+.stat {
   color: var(--color);
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  font-size: 14px;
+  margin-bottom: 14px;
+  padding-left: 26px;
+  font-size: 20px;
+  line-height: 30px;
+  position: relative;
+}
+
+/* Hanging marker, so wrapped lines align under the text rather than the //. */
+.stat:before {
+  content: '//';
+  color: var(--orange);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.stat:last-child {
+  margin-bottom: 0;
+}
+
+/* The figure is highlighted by colour rather than size: it stays in the flow
+   of the sentence it belongs to. */
+.stat-num {
+  color: var(--orange);
   font-weight: 500;
 }
 
-.case-quote-by span {
-  color: var(--orange);
-  margin: 0 2px;
+/* A rule rather than a gap: the two columns are different subjects, not
+   two halves of one list. */
+.duo-col + .duo-col {
+  border-left: 1px solid #0000001f;
+  padding-left: 70px;
+}
+
+/* Sits on .arrow-link, which already supplies the orange, the uppercase and
+   the arrow. Only the bottom alignment is specific to this layout. */
+.duo-link {
+  margin-top: auto;
 }
 
 @media screen and (max-width: 767px) {
-  .case {
-    margin-bottom: 28px;
+  .duo {
+    flex-direction: column;
+    gap: 38px;
   }
-  .case-title {
-    font-size: 20px;
-    line-height: 29px;
+  .duo-heading {
+    margin-bottom: 20px;
+    font-size: 28px;
+    line-height: 37px;
   }
-  .case-text,
-  .case-result {
+  .duo-col + .duo-col {
+    border-left: 0;
+    border-top: 1px solid #0000001f;
+    padding-top: 34px;
+    padding-left: 0;
+  }
+  .stat {
+    padding-left: 23px;
     font-size: 19px;
-    line-height: 30px;
-  }
-  .case-quote-text {
-    font-size: 20px;
-    line-height: 31px;
+    line-height: 29px;
   }
 }
 
+/* ==========================================================================
+   Footer booking call to action. Same button as the hero, in an outline
+   variant: the solid dark button is invisible on the charcoal band.
+   ========================================================================== */
+
+.button.book-cta-light {
+  color: var(--white);
+  background-color: #0000;
+  border: 1px solid var(--white);
+  margin-top: 24px;
+  transition: background-color .2s;
+  display: inline-block;
+}
+
+.button.book-cta-light:hover {
+  background-color: #ffffff1a;
+}
+
+/* Contact block spacing: the intro and the address are separate lines with
+   real space between them, not one paragraph split by a <br>. */
+.footer-intro {
+  /* The muted grey the old .text-span-5 used, kept from the Webflow footer. */
+  color: #888;
+  margin: 0;
+}
+
+.contact-line {
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+  margin: 20px 0 0;
+  line-height: 1;
+  display: flex;
+}
+
+.contact-line .slash {
+  color: var(--orange);
+}
+
+.contact-line .footer-link {
+  border-bottom: 1px solid #0000;
+  transition: border-color .2s, color .2s;
+}
+
+.contact-line .footer-link:hover {
+  border-bottom-color: var(--light-grey);
+}
+
+/* Copies the address to the clipboard. mailto: fails silently on machines
+   with no mail client configured, so the address needs to be liftable. */
+.copy-email {
+  color: var(--light-grey);
+  cursor: pointer;
+  background: #ffffff0a;
+  border: 1px solid #5c5c5f;
+  border-radius: 5px;
+  flex: none;
+  justify-content: center;
+  align-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  transition: background-color .18s, border-color .18s, color .18s;
+  display: inline-flex;
+}
+
+.copy-email:hover {
+  border-color: var(--orange);
+  color: var(--orange);
+}
+
+.copy-icon {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2px;
+  width: 14px;
+  height: 14px;
+  display: block;
+}
+
+/* The icon swaps rather than the label, so the button never changes width. */
+.copy-icon-done {
+  display: none;
+}
+
+.copy-email.copied,
+.copy-email.copy-failed {
+  color: var(--orange);
+  border-color: var(--orange);
+}
+
+.copy-email.copied .copy-icon-default {
+  display: none;
+}
+
+.copy-email.copied .copy-icon-done {
+  display: block;
+}
+
+.copy-status {
+  color: var(--orange);
+  font-size: 13px;
+  line-height: 1;
+}
+
+/* The note is charcoal on the orange hero; here it sits on charcoal. */
+.footer .cta-note {
+  color: var(--light-grey);
+  opacity: .75;
+  margin-top: 12px;
+}
+
+.footer .cta-note .slash {
+  color: var(--orange);
+  opacity: 1;
+}
+
 @media screen and (max-width: 479px) {
-  .quote-card {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
+  .button.book-cta-light {
+    width: auto;
   }
-  .quote-photo {
-    width: 96px;
+}
+
+/* Anchor jumps: the nav's Contact scrolls to the footer rather than firing
+   mailto:, which does nothing on a machine with no mail client configured. */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
 }
