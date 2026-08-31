@@ -1057,6 +1057,7 @@ a {
 }
 
 .intro-wrapper {
+  gap: 44px;
   padding-bottom: 44px;
   flex-flow: row;
   justify-content: space-between;
@@ -3764,6 +3765,9 @@ a {
     font-size: 38px;
     line-height: 46px;
   }
+  .intro-wrapper {
+    gap: 30px;
+  }
 }
 
 @media screen and (max-width: 479px) {
@@ -3781,7 +3785,10 @@ a {
     width: 100%;
   }
   .intro-wrapper {
-    padding-bottom: 30px;
+    padding-bottom: 48px;
+  }
+  .profile-image {
+    margin-bottom: 0;
   }
   .intro-email {
     margin-bottom: 32px;
