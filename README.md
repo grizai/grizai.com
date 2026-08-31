@@ -1,7 +1,12 @@
 # grizai.com
 
-The GrizAI website as plain static HTML. No build step, no framework, no
-dependencies — what is in this folder is exactly what gets served.
+The GrizAI website as plain static HTML. No framework, no dependencies — what
+is in this folder is exactly what gets served.
+
+The one piece of tooling is `build.py`, which copies the shared head, nav and
+footer into every page. It needs nothing but Python 3, and the site does not
+depend on it having been run: every page is a complete file, so a fresh clone
+serves and previews with no setup at all.
 
 ## Preview locally
 
@@ -27,27 +32,54 @@ assets/css/site.css         the whole stylesheet
 assets/js/site.js           mobile nav + FAQ accordion, ~110 lines
 assets/img/                 128 images
 assets/fonts/               Manrope (variable, self-hosted)
+sitemap.xml                 written by build.py
+robots.txt
 .nojekyll                   tells GitHub Pages to serve files as-is
+build.py                    propagates the shared blocks into every page
+_templates/                 the shared head, nav and footer
 ```
 
 ## Editing
 
-**Text and links** — edit the HTML directly and refresh the browser.
+**Page content** — edit the HTML between the `<!-- @content -->` markers and
+refresh the browser. That region is yours; nothing regenerates it.
 
-**A known cost of having no build step:** the header and footer are duplicated
-in all 21 HTML files. Changing a nav item or the footer means a find-and-replace
-across all of them. That was a deliberate trade for zero tooling; if it starts to
-hurt, a small template step is the fix.
+**The nav, the footer, or anything in `<head>`** — edit the file in
+`_templates/`, then:
+
+```sh
+python3 build.py
+```
+
+That rewrites all 21 pages, fixing up each one's relative paths and marking its
+own nav item as current. Do not edit those regions in a page directly; the next
+build overwrites them.
+
+**A page's own title, description or share image** live in the `@page` block at
+the top of that page:
+
+```html
+<!-- @page
+title: Mursion | GrizAI – Fractional AI & Robotics
+description: Immersive Learning For the Workplace | Mursion was valued at $100M+
+image: assets/img/griz-project-1500x750-mursion.jpg
+nav: projects-detail
+-->
+```
+
+Write plain text — `&` not `&amp;`, the script escapes it. `title` and
+`description` each feed three tags, and the canonical and `og:url` are derived
+from the file's path, so they cannot drift.
 
 **Adding a project:**
 
 1. `cp -r projects/with-entalpic projects/<new-slug>`
-2. In the new `index.html`, edit the `<title>`, the `description` and `og:`
-   meta tags, the `<link rel="canonical">`, the `<h1 class="heading-12">` title,
-   the `.text-block-2` subtitle, the `.key-points` list, the `.project-image`
-   (`src` and `srcset`), and the `.project-text` body.
+2. In the new `index.html`, edit the `@page` block, then the `<h1
+   class="heading-12">` title, the `.text-block-2` subtitle, the `.key-points`
+   list, the `.project-image` (`src` and `srcset`), and the `.project-text` body.
 3. Add a matching card to `projects/index.html` — copy an existing
    `.project-list-item` block and change the `href`, image and text.
+4. `python3 build.py` — this also adds the page to `sitemap.xml`.
 
 **Images** go in `assets/img/` and are referenced as `/assets/img/<name>`.
 Several are served responsively via `srcset` at `-p-500`, `-p-800` and `-p-1080`
@@ -70,30 +102,28 @@ testimonials are real HTML, not fetched at runtime.
 
 ## Deploying to GitHub Pages
 
-The repo is <https://github.com/grizai/grizai.com>, and GitHub Pages is already
-enabled on it. Not pointed at the live domain yet.
+The repo is <https://github.com/grizai/grizai.com>, serving
+<https://grizai.com> from `master` via the `CNAME` file. Push and it is live;
+there is no build to wait for, because the committed HTML *is* the site.
 
-When you are ready: add a `CNAME` file containing `www.grizai.com`, then at
-DNSimple point the apex `A` records at GitHub's four IPs and `www` at
-`grizai.github.io`.
+A GitHub Action (`.github/workflows/build-check.yml`) runs `build.py --check`
+on every push and fails if a template was edited without rebuilding. It only
+checks — it never blocks the site from being served.
 
 All internal paths are relative to each page's own depth (`assets/...` from the
 root, `../assets/...` one level down, and so on), so the site renders correctly
-wherever it is mounted: a custom domain, `grizai.github.io/grizai.com/`, a plain
-`localhost` root, or even opened straight off disk with `file://`. Nothing needs
-configuring for the domain switch.
+wherever it is mounted: the custom domain, `grizai.github.io/grizai.com/`, a
+plain `localhost` root, or even opened straight off disk with `file://`.
 
-The one exception is `404.html`, which uses root-absolute paths. GitHub Pages
-serves it for *any* unmatched URL, at any depth, so relative paths would resolve
-against whatever the mistyped path happened to be. This means the 404 page is
-styled correctly on a custom domain but will be unstyled under a `github.io`
-subpath — a deliberate trade, since the domain is where it matters.
+The one exception is `404.html`, which uses root-absolute paths — its `@page`
+block sets `base: /`. GitHub Pages serves it for *any* unmatched URL, at any
+depth, so relative paths would resolve against whatever the mistyped path
+happened to be. This means the 404 page is styled correctly on the custom
+domain but will be unstyled under a `github.io` subpath — a deliberate trade,
+since the domain is where it matters.
 
 **Leave the `MX` and `SPF` records alone** — Google Workspace mail runs on this
 domain, and it is unrelated to where the website is hosted.
-
-Still worth adding at that point: a `sitemap.xml` and a `robots.txt`. The Webflow
-site had neither.
 
 ## Provenance
 

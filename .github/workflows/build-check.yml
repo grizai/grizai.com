@@ -1,0 +1,15 @@
+# Fails if a template was edited without running build.py, which would leave
+# the site half-updated: the nav fixed on some pages and stale on others.
+#
+# This only checks. GitHub Pages still serves master directly, so a failure
+# here never blocks the site from being served.
+name: templates in sync
+
+on: [push, pull_request]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 build.py --check

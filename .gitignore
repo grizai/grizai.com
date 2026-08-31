@@ -5,6 +5,7 @@ www-grizai-com/
 # Local tooling
 .claude/
 .work/
+__pycache__/
 
 # macOS
 .DS_Store
