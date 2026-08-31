@@ -1465,9 +1465,21 @@ a {
   background-color: var(--color);
 }
 
+/* The footer's two columns. A flex row rather than the floats Webflow left
+   here, so the menu is the same height as the contact block and lines up with
+   it top and bottom however the contact copy grows. */
+.footer-cols {
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 50px;
+  display: flex;
+}
+
+/* Keeps the half-width column the floats gave it, so the intro and the note
+   below the button wrap where they always did rather than at whatever width
+   the email line happens to need. */
 .footer-contact {
-  float: left;
-  width: 50%;
+  flex: 0 1 50%;
   color: var(--orange);
 }
 
@@ -1482,9 +1494,12 @@ a {
   font-weight: 400;
 }
 
+/* space-between spreads the five links over the contact column's height,
+   which is what makes the two columns finish level. */
 .footer-nav {
-  float: right;
-  clear: none;
+  flex-direction: column;
+  justify-content: space-between;
+  display: flex;
 }
 
 .footer-nav-link {
@@ -3191,7 +3206,15 @@ a {
     margin-bottom: 26px;
   }
 
+  /* The row unwinds here, or the columns stay side by side and the menu's
+     space-between pitch stretches to fill the taller contact column. */
+  .footer-cols {
+    flex-direction: column;
+  }
+
   .footer-nav {
+    justify-content: flex-start;
+    gap: 10px;
     width: 100%;
   }
 
@@ -3978,17 +4001,23 @@ a {
 
 .split {
   align-items: flex-start;
-  gap: 40px;
+  gap: 50px;
   display: flex;
 }
 
+/* The audit row is a single short line, so it reads better centred than
+   top-aligned like the sections above it. */
+.split.split-middle {
+  align-items: center;
+}
+
 .split-l {
-  flex: 0 1 40%;
+  flex: 0 1 36%;
   min-width: 0;
 }
 
 .split-r {
-  flex: 1 1 60%;
+  flex: 1 1 64%;
   min-width: 0;
 }
 
@@ -4036,6 +4065,11 @@ a {
     /* flex-start shrinks the columns to their content once the axis flips. */
     align-items: stretch;
     gap: 20px;
+  }
+  /* .split-middle is more specific than .split, so it needs resetting too. */
+  .split.split-middle {
+    align-items: stretch;
+    gap: 24px;
   }
   .section-heading {
     font-size: 28px;
@@ -4399,5 +4433,59 @@ html {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+}
+
+/* ==========================================================================
+   Start with an audit. A narrow left column carrying the offer, the price and
+   the link, with the description alongside it. Deliberately shorter than the
+   sections above: it is the hand-off, and the booking call to action is in the
+   footer directly below.
+   ========================================================================== */
+
+.audit-wrapper {
+  padding-top: 44px;
+  padding-bottom: 44px;
+}
+
+
+
+
+.audit-title {
+  color: var(--color);
+  text-wrap: balance;
+  margin: 0;
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 38px;
+}
+
+.audit-price {
+  color: var(--color);
+  margin: 6px 0 0;
+  font-size: 22px;
+  line-height: 32px;
+}
+
+.audit-text {
+  color: var(--color);
+  margin: 0;
+  font-size: 22px;
+  line-height: 34px;
+}
+
+.audit-link {
+  margin-top: 18px;
+  display: inline-block;
+}
+
+@media screen and (max-width: 767px) {
+  .audit-title {
+    font-size: 26px;
+    line-height: 34px;
+  }
+  .audit-text {
+    font-size: 19px;
+    line-height: 30px;
   }
 }
