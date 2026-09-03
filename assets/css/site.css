@@ -4489,3 +4489,348 @@ html {
     line-height: 30px;
   }
 }
+
+
+/* ==========================================================================
+   Services page. The offers as a ladder, ordered by how much of me they
+   take, with the weekly work as the destination rather than one option
+   among several. Only that rung sits on white with an orange spine.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   The ladder. The offers ordered by how much of me they take, drawn as a
+   spine with a stop at each rung. The weekly work is the destination, not
+   one option among five, so it is the only rung on white, the only one with
+   an orange spine segment, and the only one that gets a second paragraph.
+   -------------------------------------------------------------------------- */
+
+.ladder-lead {
+  color: var(--color);
+  max-width: 44em;
+  margin: 0 0 34px;
+  font-size: 20px;
+  line-height: 30px;
+}
+
+.rung {
+  border-left: 2px solid #0000001f;
+  padding: 0 0 28px 28px;
+  position: relative;
+}
+
+.rung:before {
+  content: '';
+  background: #c3c3c3;
+  border-radius: 50%;
+  width: 11px;
+  height: 11px;
+  position: absolute;
+  top: 8px;
+  left: -6.5px;
+}
+
+/* Name and duration share a line and wrap together on narrow screens. */
+.rung-top {
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 14px;
+  margin-bottom: 9px;
+  display: flex;
+}
+
+.rung-name {
+  color: var(--color);
+  margin: 0;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 28px;
+}
+
+.rung-meta {
+  color: var(--color);
+  opacity: .6;
+  margin: 0;
+  font-size: 15px;
+  line-height: 23px;
+}
+
+.rung-meta b {
+  color: var(--orange);
+  opacity: 1;
+  font-weight: 500;
+}
+
+.rung-when {
+  color: var(--color);
+  opacity: .85;
+  margin: 0;
+  font-size: 17px;
+  line-height: 26px;
+}
+
+/* The primary rung, and only the primary rung. */
+.rung.is-primary {
+  background-color: var(--white);
+  border-left-color: var(--orange);
+  border-radius: 0 10px 10px 0;
+  padding: 26px 30px 26px 28px;
+}
+
+/* The spine would otherwise run past the last rung into empty space. The
+   primary rung is last, so its own orange border wins on source order. */
+.rung:last-child {
+  border-left-color: #0000;
+  padding-bottom: 0;
+}
+
+/* The rung keeps body sizing, so the dot only has to clear the card's 26px
+   padding to centre on the 20/28 heading. */
+.rung.is-primary:before {
+  background: var(--orange);
+  width: 15px;
+  height: 15px;
+  top: 32.5px;
+  left: -8.5px;
+}
+
+/* The white ground and the orange spine are the emphasis; the type stays put.
+   Only the muting comes off, so the line reads at full strength. */
+.rung.is-primary .rung-when { opacity: 1; }
+
+.rung-what {
+  color: var(--color);
+  margin: 14px 0 0;
+  font-size: 18px;
+  line-height: 28px;
+}
+
+.rung-what b { color: var(--orange); font-weight: 500; }
+
+/* --------------------------------------------------------------------------
+   The rarer shapes. Real work, and not the point of the page, so they sit a
+   tier down: no cards, no dots, just a thin rule and smaller type.
+   -------------------------------------------------------------------------- */
+
+.also-band { margin-top: 46px; }
+
+.also-lead {
+  color: var(--color);
+  opacity: .75;
+  text-transform: uppercase;
+  letter-spacing: .09em;
+  margin: 0 0 18px;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.also-grid {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  display: grid;
+}
+
+.also {
+  border-top: 2px solid #00000024;
+  padding-top: 14px;
+}
+
+.also-name {
+  color: var(--color);
+  margin: 0 0 6px;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 25px;
+}
+
+.also-what {
+  color: var(--color);
+  opacity: .75;
+  margin: 0;
+  font-size: 16px;
+  line-height: 25px;
+}
+
+/* The call is the only rung you can act on from here, so it is the only one
+   that is a link. Orange rule rather than the site's charcoal one, which at
+   heading size reads as a line struck through the words. */
+.rung-link {
+  color: var(--color);
+  border-bottom: 2px solid var(--orange);
+}
+
+.rung-link:hover {
+  color: var(--orange);
+}
+
+/* A second practice is not a service, so it does not get a tile alongside
+   them: one muted line under the row, with the domain as the link. */
+.partner {
+  color: var(--color);
+  opacity: .75;
+  border-top: 2px solid #00000024;
+  margin: 26px 0 0;
+  padding-top: 16px;
+  font-size: 16px;
+  line-height: 25px;
+}
+
+/* The site underlines links at 2px, which is heavy at this size. */
+.partner a { border-bottom-width: 1px; }
+
+/* --------------------------------------------------------------------------
+   "Who it isn't" reads as information rather than as a warning, so its
+   markers drop the orange the affirmative column uses.
+   -------------------------------------------------------------------------- */
+.stats-muted .stat { opacity: .8; }
+.stats-muted .stat:before { color: #999; }
+
+@media screen and (max-width: 767px) {
+  .ladder-lead { margin-bottom: 28px; font-size: 19px; line-height: 30px; }
+  .rung { padding-left: 24px; }
+  .rung.is-primary { padding: 22px 20px 22px 24px; }
+  .rung-what { font-size: 17px; line-height: 27px; }
+  .also-band { margin-top: 38px; }
+  .also-grid { grid-template-columns: 1fr; gap: 18px; }
+  .partner { margin-top: 22px; }
+}
+
+
+
+
+/* ==========================================================================
+   Projects page. A row of facts under the page heading, inside the orange
+   band: .collection-list-wrapper pulls the cards up by -150px into the
+   hero's bottom padding, so anything placed between the two would be
+   covered by them. Below that, the list opens at six and grows six at a
+   time rather than dropping fifteen cards on the reader at once.
+   ========================================================================== */
+
+/* Four facts under the sub-heading, on the orange. The figures are pulled
+   out at 26px because they are the reason the row is there; the rule above
+   separates them from the sub-heading without adding a section. */
+.facts-grid {
+  border-top: 1px solid #ffffff3d;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-top: 34px;
+  padding-top: 20px;
+  display: grid;
+}
+
+.fact-num {
+  color: var(--white);
+  margin: 0 0 2px;
+  font-size: 26px;
+  font-weight: 500;
+  line-height: 34px;
+}
+
+.fact-label {
+  color: var(--white);
+  opacity: .7;
+  margin: 0;
+  font-size: 15px;
+  line-height: 23px;
+}
+
+/* --------------------------------------------------------------------------
+   Progressive reveal, shared by the projects and testimonials lists. A list
+   marked data-reveal="<step>" opens at that many items and grows on the
+   button in the .more-items block.
+
+   Hiding is keyed off .js, the class the inline head script swaps in, so
+   with JavaScript unavailable the full list renders and the button never
+   appears. The child selector is specific enough to clear the display each
+   list item carries without needing !important.
+   -------------------------------------------------------------------------- */
+.js [data-reveal] > .is-hidden {
+  display: none;
+}
+
+/* Hidden by default so it is never a dead control: without JavaScript the
+   whole list is already on the page and there is nothing left to reveal. */
+.more-items {
+  display: none;
+}
+
+.js .more-items {
+  text-align: center;
+  margin-top: 10px;
+  display: block;
+}
+
+/* [hidden] alone loses to the display: inline-block .button carries, so the
+   wrapper is hidden instead and the rule is specific enough to win. */
+.js .more-items[hidden] {
+  display: none;
+}
+
+/* .button was written for Webflow's <a class="w-button">; as a real <button>
+   it needs the UA chrome removing and the page font putting back. */
+.more-items .button {
+  cursor: pointer;
+  border: 0;
+  padding: 12px 50px 12px 20px;
+  font-family: inherit;
+  font-size: 16px;
+  /* Down rather than right: it opens more of this page, it does not leave. */
+  background-image: url('../img/arrow-down.svg');
+}
+
+/* The testimonials list differs from the projects one: its items are
+   full-bleed stripes alternating white and grey via :nth-child(2n), and the
+   section has no background of its own, so an unpainted button row falls
+   through to the charcoal on body. This paints it as the next stripe in the
+   sequence. The step is even and :nth-child(2n) is the grey one, so the last
+   visible item is always grey and the next stripe is always white. */
+.js .more-items.more-items-stripe {
+  background-color: var(--white);
+  margin: 0;
+  padding: 44px 20px 54px;
+}
+
+@media screen and (max-width: 991px) {
+  .facts-grid { grid-template-columns: repeat(2, 1fr); gap: 20px 24px; }
+}
+
+@media screen and (max-width: 767px) {
+  .facts-grid { gap: 16px; margin-top: 26px; }
+  .fact-num { font-size: 23px; line-height: 31px; }
+}
+
+
+/* ==========================================================================
+   Credentials page. Four claims rather than four CV sections, each on its
+   own band so the alternating grounds do the separating, and each headed by
+   what it proves rather than by where it happened.
+   ========================================================================== */
+
+/* .split puts the claim and the reason it is on the page on the left, the
+   evidence on the right, the same 36/64 used on the home and services pages. */
+
+/* The reason this group is on the page at all. Sits under the claim, quieter
+   than it and quieter than the evidence, because it is an aside to both. */
+.cred-why {
+  color: var(--color);
+  opacity: .7;
+  border-left: 2px solid var(--orange);
+  margin: 16px 0 0;
+  padding-left: 14px;
+  font-size: 17px;
+  line-height: 26px;
+}
+
+/* Degrees are table stakes: named once, at the foot, out of the argument. */
+.cred-footnote {
+  color: var(--color);
+  opacity: .6;
+  border-top: 1px solid #0000001f;
+  margin: 0;
+  padding-top: 18px;
+  font-size: 15px;
+  line-height: 24px;
+}
+
+@media screen and (max-width: 767px) {
+  .cred-why { font-size: 16px; line-height: 25px; margin-top: 14px; }
+}

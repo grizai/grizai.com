@@ -1,4 +1,4 @@
-/* GrizAI — the only three behaviours the site needs.
+/* GrizAI — the only four behaviours the site needs.
    Replaces jQuery + Webflow IX2 + Finsweet (~270KB) with ~90 lines. */
 (function () {
   'use strict';
@@ -249,4 +249,59 @@
     if (!trigger) return;
     if (window.Cal && window.Cal.ns && window.Cal.ns.grizai) e.preventDefault();
   });
+
+  /* ------------------------------------------------------------------ *
+   * Long lists open partly and grow a step at a time, so a page does not
+   * land fifteen cards or eighteen quotes on the reader at once.
+   *
+   * A list opts in with data-reveal="<step>"; its control is the .more-items
+   * block elsewhere in the same section. The hiding itself is done in CSS
+   * behind the .js class, so with JavaScript unavailable the whole list
+   * renders and the button never appears.
+   * ------------------------------------------------------------------ */
+  Array.prototype.forEach.call(
+    document.querySelectorAll('[data-reveal]'),
+    function (list) {
+      var step = parseInt(list.getAttribute('data-reveal'), 10);
+      var section = list.closest('section');
+      var wrapper = section && section.querySelector('.more-items');
+      var button = wrapper && wrapper.querySelector('.button');
+      if (!step || !button) return;
+
+      /* Webflow left empty collection items behind in places; they render at
+         zero height but would still be counted, so the button would go on
+         promising more after the last real one. */
+      var items = Array.prototype.filter.call(list.children, function (item) {
+        return item.children.length > 0;
+      });
+      var shown = step;
+
+      function render() {
+        items.forEach(function (item, i) {
+          item.classList.toggle('is-hidden', i >= shown);
+        });
+        var left = items.length - shown;
+        wrapper.hidden = left <= 0;
+        if (left > 0) button.textContent = 'Show ' + Math.min(step, left) + ' more';
+      }
+
+      button.addEventListener('click', function () {
+        /* Held before the count moves, so focus lands on the first item that
+           was not there a moment ago rather than on a button that may now
+           be gone. */
+        var firstNew = items[shown];
+        shown += step;
+        render();
+        if (!firstNew) return;
+        var target = firstNew.querySelector('a');
+        if (!target) {
+          target = firstNew;
+          firstNew.setAttribute('tabindex', '-1');
+        }
+        target.focus({ preventScroll: true });
+      });
+
+      render();
+    }
+  );
 })();
