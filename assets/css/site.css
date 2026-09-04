@@ -4820,6 +4820,11 @@ html {
   line-height: 26px;
 }
 
+/* The site underlines links at 2px, which is heavy inside list copy. */
+.stat a {
+  border-bottom-width: 1px;
+}
+
 /* Degrees are table stakes: named once, at the foot, out of the argument. */
 .cred-footnote {
   color: var(--color);
